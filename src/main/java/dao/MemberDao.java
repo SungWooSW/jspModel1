@@ -38,15 +38,15 @@ public class MemberDao {
 			System.out.println("1/3 getId success"); // 성공했는지 중간중간 확인되도록 표시
 			
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, id);
+			psmt.setString(1, id); // ? 위치에 id 대입
 			System.out.println("2/3 getId success");
 
 			
 			rs = psmt.executeQuery();
 			System.out.println("3/3 getId success");
 
-			if(rs.next()) {
-				findid = true;
+			if(rs.next()) {    // 결과 테이블(집합)에 다음 레코드(결과)가 존재한다면,
+				findid = true;  // 매개변수 id값과 동일한 id가 존재한다.
 			}
 			
 		} catch (SQLException e) {
@@ -74,10 +74,10 @@ public class MemberDao {
 			System.out.println("1/3 addMember success");
 			psmt = conn.prepareStatement(sql);
 		
-			psmt.setString(1, dto.getId());
+			psmt.setString(1, dto.getId()); // 첫 번째 ?
 			psmt.setString(2, dto.getPwd());
 			psmt.setString(3, dto.getName());
-			psmt.setString(4, dto.getEmail());
+			psmt.setString(4, dto.getEmail()); // 네 번째 ?
 			System.out.println("2/3 addMember success");
 			
 			count = psmt.executeUpdate();
@@ -90,7 +90,7 @@ public class MemberDao {
 			DBClose.close(conn, psmt, null);
 		}
 		
-		return count>0?true:false;
+		return count>0?true:false; // count > 0이면 회원정보가 추가되어 회원가입 성공
 	}
 	
 	public MemberDto login(String id, String pwd) {
@@ -103,7 +103,7 @@ public class MemberDao {
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
 		
-		MemberDto mem = null;;
+		MemberDto mem = null;
 		
 		try {
 			conn = DBConnection.getConnection();
@@ -116,7 +116,7 @@ public class MemberDao {
 			rs = psmt.executeQuery();
 			System.out.println("3/3 login success");
 			
-			// 매개변수로 받은 id와 pwd와 일치하는 회원정보를 mem이라는 변수에 저장
+			// 매개변수로 받은 id와 pwd와 일치하는 회원정보 객체를 mem이라는 변수가 참조
 			// 회원 1명에 대한 정보이므로 if(rs.next)를 사용
 			if(rs.next()) {
 				String _id = rs.getString("id"); // rs.getString("1") select문(select id, name, email, auth)에서 첫번째
