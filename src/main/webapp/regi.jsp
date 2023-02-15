@@ -27,7 +27,7 @@
 			<td>아이디</td>
 			<td align="right">
 				<input type="text" name="id" id="id" size="20"><br>
-				<p id="idcheck" style="font-size: 8px"></p> 
+				<p id="idcheck" style="font-size: 8px"></p>       <!-- 사용가능한 id인지를 알려주는 메시지가 적힐 위치 -->
 				<input type="button" id="idChkBtn" value="id확인">
 			</td>
 		</tr>
@@ -67,8 +67,8 @@ $(document).ready(function(){
 		// id의 빈칸을 조사!
 		
 		if( $("#id").val().trim() == ""){ // 스페이스 다 제거하고도 빈칸이면
-			alert('id를 다시 입력해주십시오'); // id 올바르게 입력하도록 하고
-			location.href="regi.jsp"; // 다시 새 파일이 뜨게 한다.
+			alert('id를 다시 입력해주십시오'); // id 올바르게 입력하도록 한다.
+			$("#id").val(""); 
 			
 		} else {
 			
@@ -77,8 +77,7 @@ $(document).ready(function(){
 				type:"post",
 				data: {"id": $("#id").val()},
 				success:function(msg){
-	// 				alert(msg.trim());
-	
+					// idcheck로부터 값을 돌려받음
 					if(msg.trim() == "YES"){
 						$("#idcheck").css("color","#0000ff");
 						$("#idcheck").text("사용할 수 있는 아이디입니다.");
@@ -87,7 +86,6 @@ $(document).ready(function(){
 						$("#idcheck").text("사용중인 아이디입니다.");
 						$("#id").val("");
 					}
-	
 				},
 				error:function(){
 					alert('error');

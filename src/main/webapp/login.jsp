@@ -61,7 +61,7 @@ let user_id = $.cookie("user_id");
 
 if(user_id != null){ // 저장한 id가 있음
 	$("#id").val(user_id); // 저장한 id를 넣어준다.(setter)
-	$("#chk_save_id").prop("checked", true);
+	$("#chk_save_id").prop("checked", true); // 체크박스 체크
 }
 
 $("#chk_save_id").click(function(){
