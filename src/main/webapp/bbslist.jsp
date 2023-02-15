@@ -102,46 +102,38 @@ if(list == null || list.size() == 0){
 		<td colspan="4">작성된 글이 없습니다</td>
 	</tr>
 	<%
-} else {
+}else{
 	
-	for(int i = 0; i < list.size(); i++)
+	for(int i = 0;i < list.size(); i++)
 	{
 		BbsDto dto = list.get(i);
 		%>
 		<tr>
-			<th><%= i + 1 %></th>
+			<th><%=i + 1 %></th>
 			
 			<%
 			if(dto.getDel() == 0){
-				%>
+				%>			
 				<td>
 					<%=arrow(dto.getDepth()) %>
 					<a href="bbsdetail.jsp?seq=<%=dto.getSeq() %>">
-						<%= dto.getTitle() %>
+						<%=dto.getTitle() %>
 					</a>
-				</td>
-				<% 
-			} else if(dto.getDel() == 1){
+				</td>			
+				<%
+			}else if(dto.getDel() == 1){
 				%>
 				<td>
 					<%=arrow(dto.getDepth()) %>
-					<a href="bbsdetail.jsp?seq=<%=dto.getSeq() %>">
-						<%= dto.getTitle() %>
-					</a>
+					<font color="#ff0000">*** 이 글은 작성자에 의해서 삭제되었습니다 ***</font>	
 				</td>
-				<% 
-			}
+				<%
+			}	
 			%>
-				수정해야함
-			
-			
-			
-			
-			<td><%= dto.getReadcount() %></td>
-<%-- 			<td><%= dto.getRef() %>-<%= dto.getStep() %>-<%= dto.getDepth() %></td> --%>
-			<td><%= dto.getId() %></td>
+			<%--<td><%= dto.getRef() %>-<%= dto.getStep() %>-<%= dto.getDepth() %></td>--%>
+			<td><%=dto.getReadcount() %></td>
+			<td><%=dto.getId() %></td>			
 		</tr>
-		
 		<%
 	}
 }
