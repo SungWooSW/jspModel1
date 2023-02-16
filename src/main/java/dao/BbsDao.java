@@ -442,7 +442,7 @@ public class BbsDao {
 		
 		return count>0?true:false;
 	}
-	
+	// 글 삭제
 	public boolean deleteBbs(int seq) {
 		
 		String sql = " update bbs"

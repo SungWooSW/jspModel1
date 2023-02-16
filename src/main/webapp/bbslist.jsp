@@ -79,6 +79,12 @@ List<BbsDto> list = dao.getBbsPageList(choice, search, pageNumber);
 
 
 <h1>게시판</h1>
+<br>
+
+<a href="calendar.jsp">일정관리</a>
+<hr>
+<br>
+
 
 <div align="center">
 

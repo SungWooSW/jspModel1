@@ -1,8 +1,9 @@
+<%@page import="dao.CalendarDao"%>
+<%@page import="dto.CalendarDto"%>
 <%@page import="dto.MemberDto"%>
-<%@page import="dto.BbsDto"%>
-<%@page import="dao.BbsDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%
 	// loginAf.jsp에서 "login" name의 세션에 변수 mem을 저장했다.
 	MemberDto login = (MemberDto)session.getAttribute("login"); //session.getAttribute("login")의 리턴값은 mem(Object)이므로 cast(형변환)!
@@ -14,18 +15,13 @@
 		</script>
 		<%
 	}	
-%>   
-
+%>       
+    
 <%
-// bbslist에서 게시판의 제목을 클릭했을 때 넘겨준 seq
 int seq = Integer.parseInt(request.getParameter("seq"));
 
-BbsDao dao = BbsDao.getInstance();
-
-dao.readcount(seq); // 조회수 증가
-
-BbsDto dto = dao.getBbs(seq);
-
+CalendarDao dao = CalendarDao.getInstance();
+CalendarDto dto = dao.getCal(seq);
 %>    
     
 <!DOCTYPE html>
@@ -36,7 +32,7 @@ BbsDto dto = dao.getBbs(seq);
 </head>
 <body>
 
-<h1>상세 글 보기</h1>
+<h1>상세 일정 보기</h1>
 
 <div align="center">
 <table border="1">
@@ -53,16 +49,12 @@ BbsDto dto = dao.getBbs(seq);
 	<td><%= dto.getTitle() %></td>
 </tr>
 <tr>
+	<th>일정 일자</th>
+	<td><%= dto.getRdate() %></td>
+</tr>
+<tr>
 	<th>작성일</th>
 	<td><%= dto.getWdate() %></td>
-</tr>
-<tr>
-	<th>조회수</th>
-	<td><%= dto.getReadcount() %></td>
-</tr>
-<tr>
-	<th>답글정보</th>
-	<td><%=dto.getRef() %>-<%=dto.getStep() %>-<%=dto.getDepth() %></td>
 </tr>
 <tr>
 	<th>내용</th>
@@ -71,45 +63,23 @@ BbsDto dto = dao.getBbs(seq);
 	</td>
 </tr>
 </table>
-
-
 <br>
-<button type="button" onclick="answerBbs(<%=dto.getSeq() %>)">답글</button>
 
-<button type="button" onclick="location.href='bbslist.jsp'">글목록</button>
 
 <%
 	// login은 맨 위에서 세션을 통해 생성된 참조변수
 	// 작성자와 로그인 한 사람의 id가 같을 때만 수정, 삭제 버튼이 나타나도록 한다.
 	if(dto.getId().equals(login.getId())){
 		%>
-		<button type="button" onclick="updateBbs(<%=dto.getSeq() %>)">수정</button>
+		<button type="button" onclick="updateCal(<%=dto.getSeq() %>)">수정</button>
 
-		<button type="button" onclick="deleteBbs(<%=dto.getSeq() %>)">삭제</button>
+		<button type="button" onclick="deleteCal(<%=dto.getSeq() %>)">삭제</button>
 		<%
 	}
 %>
 
 </div>
 
-<script type="text/javascript">
-// 답글 작성
-function answerBbs(seq){
-	location.href="answer.jsp?seq=" + seq;
-}
-// 수정
-function updateBbs(seq){
-	location.href="bbsupdate.jsp?seq=" + seq;
-}
-// 삭제
-function deleteBbs(seq){
-	location.href="bbsdeleteAf.jsp?seq=" + seq; // update del=1;
-}
-
-
-
-
-</script>
 
 
 </body>
