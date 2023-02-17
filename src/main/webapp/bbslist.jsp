@@ -115,7 +115,7 @@ if(list == null || list.size() == 0){
 		BbsDto dto = list.get(i);
 		%>
 		<tr>
-			<th><%=i + 1 %></th>
+			<th><%=i + 1 %></th> 
 			
 			<%
 			if(dto.getDel() == 0){
