@@ -1,4 +1,7 @@
-package util;import java.util.List;
+package util;import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.sql.*;
 
 import dao.CalendarDao;
 import dto.CalendarDto;
@@ -88,6 +91,30 @@ public class CalendarUtil {
 		
 		return str;
 		
+	}
+	
+	// 날짜가 보기 좋게 출력되도록 하는 함수
+	public static String toDates(String mdate) {
+		
+		// 날짜 형식
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 hh시 mm분");
+		
+		// 202302170942 -> yyyy-MM-dd hh:mm:00
+		String s = mdate.substring(0, 4) + "-"		// yyyy
+					+ mdate.substring(4, 6) + "-"	// MM
+					+ mdate.substring(6, 8) + " "	// dd
+					+ mdate.substring(8, 10) + ":"	// hh
+					+ mdate.substring(10) + ":00";	// mm + 00초
+					
+		Timestamp d = Timestamp.valueOf(s); // s를 Timestamp 객체로 변환
+		
+		return sdf.format(d);
+	}
+	
+	
+	// 앞에 0이 있는 문자열을 한자리 변환 08 -> 8
+	public static String toOne(String msg) {
+		return msg.charAt(0) == '0'?msg.charAt(1)+"":msg;
 	}
 	
 	

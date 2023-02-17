@@ -1,3 +1,4 @@
+<%@page import="util.CalendarUtil"%>
 <%@page import="dao.CalendarDao"%>
 <%@page import="dto.CalendarDto"%>
 <%@page import="dto.MemberDto"%>
@@ -21,7 +22,7 @@
 int seq = Integer.parseInt(request.getParameter("seq"));
 
 CalendarDao dao = CalendarDao.getInstance();
-CalendarDto dto = dao.getCal(seq);
+CalendarDto dto = dao.getDay(seq);
 %>    
     
 <!DOCTYPE html>
@@ -36,12 +37,9 @@ CalendarDto dto = dao.getCal(seq);
 
 <div align="center">
 <table border="1">
-<colgroup>
-	<col style="width: 200px"/>
-	<col style="width: 200px"/>
-</colgroup>
+<col width="200"><col width="500">
 <tr>
-	<th>작성자</th>
+	<th>아이디</th>
 	<td><%= dto.getId() %></td>
 </tr>
 <tr>
@@ -49,36 +47,35 @@ CalendarDto dto = dao.getCal(seq);
 	<td><%= dto.getTitle() %></td>
 </tr>
 <tr>
-	<th>일정 일자</th>
-	<td><%= dto.getRdate() %></td>
-</tr>
-<tr>
-	<th>작성일</th>
-	<td><%= dto.getWdate() %></td>
+	<th>일정</th>
+	<td><%= CalendarUtil.toDates(dto.getRdate()) %></td>
 </tr>
 <tr>
 	<th>내용</th>
 	<td>
-		<textarea rows="15" cols="90"><%= dto.getContent() %></textarea>
+	<textarea rows="20" cols="60" name="content"><%=dto.getContent() %></textarea>
 	</td>
 </tr>
 </table>
 <br>
 
+<button type="button" onclick="calUpdate(<%=dto.getSeq() %>)">수정</button>
 
-<%
-	// login은 맨 위에서 세션을 통해 생성된 참조변수
-	// 작성자와 로그인 한 사람의 id가 같을 때만 수정, 삭제 버튼이 나타나도록 한다.
-	if(dto.getId().equals(login.getId())){
-		%>
-		<button type="button" onclick="updateCal(<%=dto.getSeq() %>)">수정</button>
+<button type="button" onclick="calDelete(<%=dto.getSeq() %>)">삭제</button>
 
-		<button type="button" onclick="deleteCal(<%=dto.getSeq() %>)">삭제</button>
-		<%
-	}
-%>
 
 </div>
+<script type="text/javascript">
+function calUpdate(seq){
+	location.href="calupdate.jsp?seq=" + seq;
+}
+function calDelete(seq){
+	location.href="caldelete.jsp?seq=" + seq;
+}
+
+
+</script>
+
 
 
 
